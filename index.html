@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de fundaciones con carga biaxial</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Ingeniería geotécnica</p>
+        <h1>Calculadora de fundaciones con carga biaxial</h1>
+        <p class="lead">
+          Evalúa una zapata rectangular sometida a carga axial y momentos en dos direcciones.
+          Obtén excentricidades, presiones de contacto, verificación del núcleo central y una
+          recomendación preliminar de área requerida.
+        </p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card form-card">
+        <h2>Datos de entrada</h2>
+        <form id="foundation-form">
+          <div class="grid">
+            <label>
+              Carga axial P
+              <div class="input-wrap">
+                <input type="number" step="any" min="0.01" id="axialLoad" value="850" required />
+                <span>kN</span>
+              </div>
+            </label>
+            <label>
+              Momento alrededor de X (Mx)
+              <div class="input-wrap">
+                <input type="number" step="any" id="momentX" value="120" required />
+                <span>kN·m</span>
+              </div>
+            </label>
+            <label>
+              Momento alrededor de Y (My)
+              <div class="input-wrap">
+                <input type="number" step="any" id="momentY" value="90" required />
+                <span>kN·m</span>
+              </div>
+            </label>
+            <label>
+              Ancho en X (B)
+              <div class="input-wrap">
+                <input type="number" step="any" min="0.01" id="widthX" value="2.4" required />
+                <span>m</span>
+              </div>
+            </label>
+            <label>
+              Largo en Y (L)
+              <div class="input-wrap">
+                <input type="number" step="any" min="0.01" id="lengthY" value="2.8" required />
+                <span>m</span>
+              </div>
+            </label>
+            <label>
+              Presión admisible del suelo
+              <div class="input-wrap">
+                <input type="number" step="any" min="0.01" id="allowablePressure" value="220" required />
+                <span>kPa</span>
+              </div>
+            </label>
+            <label>
+              Peso propio + relleno (opcional)
+              <div class="input-wrap">
+                <input type="number" step="any" min="0" id="selfWeight" value="0" />
+                <span>kN</span>
+              </div>
+            </label>
+            <label>
+              Factor de seguridad meta
+              <div class="input-wrap">
+                <input type="number" step="any" min="1" id="safetyFactor" value="1.0" required />
+                <span>-</span>
+              </div>
+            </label>
+          </div>
+          <button type="submit">Calcular</button>
+        </form>
+      </section>
+
+      <section class="card result-card">
+        <div class="result-header">
+          <h2>Resultados</h2>
+          <span id="statusBadge" class="badge neutral">Esperando cálculo</span>
+        </div>
+
+        <div class="metrics" id="metrics"></div>
+
+        <div class="diagram-wrapper">
+          <div>
+            <h3>Mapa relativo de presiones</h3>
+            <canvas id="pressureCanvas" width="420" height="420" aria-label="Mapa de presiones"></canvas>
+          </div>
+          <div class="notes">
+            <h3>Interpretación</h3>
+            <ul id="messages"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card info-card">
+      <h2>Supuestos del cálculo</h2>
+      <ul>
+        <li>Se considera una zapata rígida rectangular con distribución lineal de presiones.</li>
+        <li>La fórmula usada es: q = P/A · (1 ± 6ex/B ± 6ey/L).</li>
+        <li>Si |ex| ≤ B/6 y |ey| ≤ L/6, la resultante cae dentro del núcleo central.</li>
+        <li>Si qmin &lt; 0, puede existir tracción o pérdida parcial de contacto; se recomienda rediseño.</li>
+        <li>La app es preliminar y no reemplaza una memoria de cálculo estructural/geotécnica.</li>
+      </ul>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
